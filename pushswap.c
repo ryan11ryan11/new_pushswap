@@ -153,7 +153,7 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 	pivot_quicksort(full, empty, pivot_index/2, s, type, argc);
 	printf("\n\n@will be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",s[(pivot_index)], (pivot_index), a_num);
 	printf("2\n");
-	pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
+	//pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
 }
 
 int	main(int argc, char *argv[])

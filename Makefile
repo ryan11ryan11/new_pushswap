@@ -17,7 +17,7 @@ LIBFT = libft/libft.a
 NAME = pushswap.a
 AR = ar -rcs
 
-SRC = pushswap asort stack_test stack_control
+SRC = pushswap stack_test stack_control
 
 SRCOBJ = $(addsuffix .o, $(SRC))
 
