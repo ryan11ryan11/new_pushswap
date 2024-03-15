@@ -1,0 +1,70 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/07 17:03:08 by junhhong          #+#    #+#              #
+#    Updated: 2024/02/07 17:03:09 by junhhong         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
+
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+SERVER = server
+SERVERBONUS = bonus_server
+CLIENTBONUS = bonus_client
+COMLIB = common.a
+CLIENT = client
+COMMON = ft_atoi ft_itoa ft_putstr_fd ft_strdup ft_memmove ft_strlen
+COMDIR = minitalk_src
+BONDIR = bonus
+
+COMOBJ = $(addprefix $(COMDIR)/, $(addsuffix .o, $(COMMON)))
+SRVOBJ = $(addsuffix .o, $(SERVER))
+CLTOBJ = $(addsuffix .o, $(CLIENT))
+
+AR = ar -rcs
+
+# -I means that minitalk is located at current directory
+$(COMDIR)/%.o : $(COMDIR)/%.c minitalk.h
+	$(CC) $(CFLAGS) -I. -c $< -o $@
+
+%.o : %.c minitalk.h
+	$(CC) $(CFLAGS) -I. -c $< -o $@
+
+# Make lib
+$(COMLIB) : $(COMOBJ) 
+	$(AR) $(COMLIB) $(COMOBJ)
+
+# @ : target
+# < : first dependency
+# -L : lib file is located at current DIR
+$(SERVER) : $(SERVER).o $(COMLIB)
+	$(CC) $(CFLAGS) -o server $(SERVER).o -L. $(COMLIB) 
+
+$(CLIENT) : $(CLIENT).o $(COMLIB)
+	$(CC) $(CFLAGS) -o client $(CLIENT).o -L. $(COMLIB) 
+
+$(SERVERBONUS) : $(BONDIR)/$(SERVERBONUS).o $(COMLIB)
+	$(CC) $(CFLAGS) -o server $(BONDIR)/$(SERVERBONUS).o -L. $(COMLIB) 
+
+$(CLIENTBONUS) : $(BONDIR)/$(CLIENTBONUS).o $(COMLIB)
+	$(CC) $(CFLAGS) -o client $(BONDIR)/$(CLIENTBONUS).o -L. $(COMLIB) 
+	
+all : $(SERVER) $(CLIENT)
+
+bonus : $(SERVERBONUS) $(CLIENTBONUS)
+
+clean:
+	rm -f $(SERVER).o $(CLIENT).o $(COMOBJ) $(BONDIR)/$(SERVERBONUS).o $(BONDIR)/$(CLIENTBONUS).o
+
+fclean: clean
+	rm -f $(SERVER) $(CLIENT) $(COMLIB)
+
+re: fclean all
+
+.PHONY : all clean fclean re
