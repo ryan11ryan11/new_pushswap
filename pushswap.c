@@ -133,10 +133,10 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 	a_num = full->top; // 정렬해야 할 숫자의 갯수
 	printf("\n\nwill be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",pivot_value, pivot_index, a_num);
 	stack_check(full,empty,s,argc);
-	if (pivot_index == 1)
+	if (pivot_index == 0)
 	{
+		element_move(empty, full, type);
 		printf("##FINISHED##\n");
-		pivot_index ++ ;
 		return ;
 	}
 	while (a_num >= 0)
@@ -149,10 +149,7 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 			swap(empty, 'b');
 		a_num -- ;
 	}
-	printf("1\n");
 	pivot_quicksort(full, empty, pivot_index/2, s, type, argc);
-	printf("\n\n@will be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",s[(pivot_index)], (pivot_index), a_num);
-	printf("2\n");
 	//pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
 }
 
@@ -186,7 +183,7 @@ int	main(int argc, char *argv[])
 	// printf("second\n");
 	// stack_check(&a,&b,s,argc);
 	// element_move(&a, &b, 'b');
-	pivot_index = (argc - 1 - ans_check(&a, &b, s,'a'))/2;
+	//pivot_index = (argc - 1 - ans_check(&a, &b, s,'a'))/2;
 	stack_check(&a,&b,s,argc);
 	// printf("atop::%d	btop::%d\n", a.top, b.top);
 }
