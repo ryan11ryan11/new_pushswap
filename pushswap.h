@@ -31,11 +31,20 @@ typedef struct stackstructure
 	int	target_location;
 }Stackstructure;
 
-typedef struct s_list
+typedef struct	s_list
 {
 	void			*content;
 	struct s_list	*next;
-}	t_list;
+}t_list;
+
+typedef struct	basic_info
+{
+	int	*sorted_array;
+	Stack *a;
+	Stack *b;
+	int	argc;
+	int pivot_index;
+}Basic_info;
 
 
 int		is_empty(Stack *a);

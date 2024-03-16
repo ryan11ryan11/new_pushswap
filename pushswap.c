@@ -124,6 +124,19 @@ int	ans_check(Stack *full, Stack *empty, int *s, int type)
 	return (i);
 }
 
+int	complete_move(Stack *empty, Stack *full, int *s, int type)
+{
+	int	i;
+
+	i = 0;
+	while (full->data[full->top] == s[i])
+	{
+		element_move(empty, full, type);
+		i ++ ;
+	}
+	return (i);
+}
+
 void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int type, int argc)
 {
 	int	pivot_value;
@@ -135,7 +148,7 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 	stack_check(full,empty,s,argc);
 	if (pivot_index == 0)
 	{
-		element_move(empty, full, type);
+		element_move(empty, full, type); // type = b 이면 pb, a면 pa
 		printf("##FINISHED##\n");
 		return ;
 	}
@@ -155,35 +168,25 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 
 int	main(int argc, char *argv[])
 {
-	Stack	a;
-	Stack	b;
-	int		*s;
-	int		pivot_index;
+	Basic_info	info;
+	int		sorted_until;
+	int		type;
 
 	if (argc <= 1) // 나중에 숫자 아닌 다른거 들어올 때 규칙 제정하기
 		return (0);
-	s = arr_maker(argc, argv);
-	pivot_index = (argc - 1) / 2;
-	printf("pivot_index = %d\n", pivot_index);
-	stack_init(&a);
-	stack_maker(argc, &a, s);
-	quicksort(s, 0, argc - 2); 
-	stack_init(&b);
+	info.sorted_array = arr_maker(argc, argv);
+	info.pivot_index = (argc - 1) / 2;
+	info.argc = argc;
+	printf("pivot_index = %d\n", info.pivot_index);
+	stack_init(info.a);
+	stack_init(info.b);
+	stack_maker(info.argc, info.a, info.sorted_array);
+	quicksort(info.sorted_array, 0, info.argc - 2); 
+	stack_check(info.a,info.b,info.sorted_array,info.argc);
 
-	pivot_quicksort(&a, &b, pivot_index, s, 'a', argc);
-	//stack_check(&a, &b ,s ,argc);
-	// printf("dd\n");
-	// //element_move(&b, &a, 'a');
-	// printf("xx\n");
-	// pivot_index = (argc - 1 - ans_check(&b, &a, s,'b'))/2;
-	// printf("new pivot index : %d\n", pivot_index);
+	// type = 'a';
+	// pivot_quicksort(&a, &b, pivot_index, s, type, argc);
+	// sorted_until = complete_move(&a, &b, s, 'b');
+	// printf("%d\n", sorted_until);
 	// stack_check(&a,&b,s,argc);
-	// printf("atop::%d	btop::%d\n", a.top, b.top);
-	// pivot_quicksort(&b, &a, pivot_index, s, 'b', argc);
-	// printf("second\n");
-	// stack_check(&a,&b,s,argc);
-	// element_move(&a, &b, 'b');
-	//pivot_index = (argc - 1 - ans_check(&a, &b, s,'a'))/2;
-	stack_check(&a,&b,s,argc);
-	// printf("atop::%d	btop::%d\n", a.top, b.top);
 }
