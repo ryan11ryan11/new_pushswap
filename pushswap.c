@@ -203,4 +203,8 @@ int	main(int argc, char *argv[])
 	// sorted_until = complete_move(&a, &b, s, 'b');
 	// printf("%d\n", sorted_until);
 	// stack_check(&a,&b,s,argc);
+
+	// make하고
+	// cc돌리고
+	
 }
