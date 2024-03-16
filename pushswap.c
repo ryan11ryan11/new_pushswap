@@ -166,20 +166,34 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 	//pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
 }
 
+
+// typedef struct	basic_info
+// {
+// 	int	*sorted_array;
+// 	Stack *a;
+// 	Stack *b;
+// 	int	argc;
+// 	int pivot_index;
+// }Basic_info;
+
 int	main(int argc, char *argv[])
 {
 	Basic_info	info;
-	int		sorted_until;
-	int		type;
+	Stack	a;
+	Stack	b;
+	// int		sorted_until;
+	// int		type;
 
 	if (argc <= 1) // 나중에 숫자 아닌 다른거 들어올 때 규칙 제정하기
 		return (0);
+	stack_init(&a);
+	stack_init(&b);
+	info.a = &a;
+	info.b = &b;
 	info.sorted_array = arr_maker(argc, argv);
 	info.pivot_index = (argc - 1) / 2;
 	info.argc = argc;
 	printf("pivot_index = %d\n", info.pivot_index);
-	stack_init(info.a);
-	stack_init(info.b);
 	stack_maker(info.argc, info.a, info.sorted_array);
 	quicksort(info.sorted_array, 0, info.argc - 2); 
 	stack_check(info.a,info.b,info.sorted_array,info.argc);

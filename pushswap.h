@@ -10,6 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef _PUSHSWAP_H_
+#define _PUSHSWAP_H_
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -66,3 +70,6 @@ void	swap(Stack *s, int type);
 void	element_move(Stack *a, Stack *b, int type);
 void	stack_up(Stack *s, int type);
 void	stack_down(Stack *s, int type);
+
+
+#endif
