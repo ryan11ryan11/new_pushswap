@@ -137,16 +137,16 @@ int	complete_move(Stack *empty, Stack *full, int *s, int type)
 	return (i);
 }
 
-void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int type, int argc)
+void	pivot_quicksort(Stack *full, Stack *empty, int type, Basic_info *info)
 {
 	int	pivot_value;
 	int	a_num;
 	
-	pivot_value = s[pivot_index];
+	pivot_value = info->sorted_array[info->pivot_index];
 	a_num = full->top; // 정렬해야 할 숫자의 갯수
-	printf("\n\nwill be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",pivot_value, pivot_index, a_num);
-	stack_check(full,empty,s,argc);
-	if (pivot_index == 0)
+	printf("\n\nwill be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",pivot_value, info->pivot_index, a_num);
+	stack_check(full,empty,info->sorted_array,info->argc);
+	if (info->pivot_index == 0)
 	{
 		element_move(empty, full, type); // type = b 이면 pb, a면 pa
 		printf("##FINISHED##\n");
@@ -162,7 +162,8 @@ void	pivot_quicksort(Stack *full, Stack *empty, int pivot_index, int *s, int typ
 			swap(empty, 'b');
 		a_num -- ;
 	}
-	pivot_quicksort(full, empty, pivot_index/2, s, type, argc);
+	info->pivot_index = info->pivot_index/2;
+	pivot_quicksort(full, empty,type, info);
 	//pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
 }
 
@@ -182,7 +183,7 @@ int	main(int argc, char *argv[])
 	Stack	a;
 	Stack	b;
 	// int		sorted_until;
-	// int		type;
+	int		type;
 
 	if (argc <= 1) // 나중에 숫자 아닌 다른거 들어올 때 규칙 제정하기
 		return (0);
@@ -198,8 +199,8 @@ int	main(int argc, char *argv[])
 	quicksort(info.sorted_array, 0, info.argc - 2); 
 	stack_check(info.a,info.b,info.sorted_array,info.argc);
 
-	// type = 'a';
-	// pivot_quicksort(&a, &b, pivot_index, s, type, argc);
+	type = 'a';
+	pivot_quicksort(&a, &b, type, &info);
 	// sorted_until = complete_move(&a, &b, s, 'b');
 	// printf("%d\n", sorted_until);
 	// stack_check(&a,&b,s,argc);
