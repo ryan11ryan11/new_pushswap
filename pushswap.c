@@ -127,11 +127,15 @@ int	ans_check(Stack *full, Stack *empty, int *s, int type)
 int	complete_move(Stack *full, Basic_info *info, int type)
 {
 	int	i;
+	int	scan;
 
+	scan = full->top;
 	i = 0;
-	while (full->data[full->top] == info->sorted_array[i])
+	printf("%d\n",type);
+	while (full->data[scan] == info->sorted_array[i])
 	{
-		stack_up(full, type);
+		//stack_up(full, type);
+		scan--;
 		i ++ ;
 	}
 	info->sorted_number = i;
