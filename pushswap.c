@@ -124,47 +124,80 @@ int	ans_check(Stack *full, Stack *empty, int *s, int type)
 	return (i);
 }
 
-int	complete_move(Stack *empty, Stack *full, int *s, int type)
+int	complete_move(Stack *full, Basic_info *info, int type)
 {
 	int	i;
 
 	i = 0;
-	while (full->data[full->top] == s[i])
+	while (full->data[full->top] == info->sorted_array[i])
 	{
-		element_move(empty, full, type);
+		stack_up(full, type);
 		i ++ ;
 	}
+	info->sorted_number = i;
 	return (i);
 }
 
-void	pivot_quicksort(Stack *full, Stack *empty, int type, Basic_info *info)
+
+int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
+{
+	int	pivot_value;
+	int	b_num;
+	int	half_pivot;
+	
+	half_pivot = (b->top - info->sorted_number)/2 + info->sorted_number;
+	pivot_value = info->sorted_array[half_pivot];
+	b_num = b->top; // 정렬해야 할 숫자의 갯수
+	printf("btoa started\n");
+	printf("sorted_number:%d",info->sorted_number);
+	printf("\n\nwill be applied:pivot_value = %d half_pivot = %d b_num::%d\n\n",pivot_value, half_pivot, b_num);
+	stack_check(a,b,info->sorted_array,info->argc);
+	while (b_num - info->sorted_number >= 0)
+	{
+		printf("btop:%d\n", b->data[b->top]);
+		if (b->data[b->top] == info->sorted_array[info->sorted_number])
+		{
+			info->sorted_number ++ ;
+			stack_up(b, type);
+		}
+		if (b->data[b->top] > pivot_value)
+			element_move(a, b, type);
+		else
+			stack_up(b, type);
+		b_num -- ;
+	}
+	return (0);
+}
+
+
+int	atob(Stack *a, Stack *b, int type, Basic_info *info)
 {
 	int	pivot_value;
 	int	a_num;
+	int	half_pivot;
 	
-	pivot_value = info->sorted_array[info->pivot_index];
-	a_num = full->top; // 정렬해야 할 숫자의 갯수
-	printf("\n\nwill be applied:pivot_value = %d pivot_index = %d a_num::%d\n\n",pivot_value, info->pivot_index, a_num);
-	stack_check(full,empty,info->sorted_array,info->argc);
-	if (info->pivot_index == 0)
+	half_pivot = a->top/2;
+	pivot_value = info->sorted_array[half_pivot];
+	a_num = a->top; // 정렬해야 할 숫자의 갯수
+	printf("\n\nwill be applied:pivot_value = %d half_pivot = %d a_num::%d\n\n",pivot_value, half_pivot, a_num);
+	stack_check(a,b,info->sorted_array,info->argc);
+	if (half_pivot == 0)
 	{
-		element_move(empty, full, type); // type = b 이면 pb, a면 pa
+		element_move(b, a, type); // type = b 이면 pb, a면 pa
 		printf("##FINISHED##\n");
-		return ;
+		return (1);
 	}
 	while (a_num >= 0)
 	{
-		if (full->data[full->top] < pivot_value)
-			stack_up(full, type);
+		if (a->data[a->top] < pivot_value)
+			stack_up(a, type);
 		else
-			element_move(empty, full, type);
-		if (empty->data[empty->top] > empty->data[empty->top - 1])
-			swap(empty, 'b');
+			element_move(b, a, type);
+		// if (b->data[b->top] > b->data[b->top - 1])
+		// 	swap(b, 'b');
 		a_num -- ;
 	}
-	info->pivot_index = info->pivot_index/2;
-	pivot_quicksort(full, empty,type, info);
-	//pivot_quicksort(empty, full, (pivot_index + full->top)/2, s, type, argc);
+	return (0);
 }
 
 
@@ -182,7 +215,7 @@ int	main(int argc, char *argv[])
 	Basic_info	info;
 	Stack	a;
 	Stack	b;
-	// int		sorted_until;
+	int		sorted_until;
 	int		type;
 
 	if (argc <= 1) // 나중에 숫자 아닌 다른거 들어올 때 규칙 제정하기
@@ -200,10 +233,16 @@ int	main(int argc, char *argv[])
 	stack_check(info.a,info.b,info.sorted_array,info.argc);
 
 	type = 'a';
-	pivot_quicksort(&a, &b, type, &info);
-	// sorted_until = complete_move(&a, &b, s, 'b');
-	// printf("%d\n", sorted_until);
-	// stack_check(&a,&b,s,argc);
+	while (atob(&a, &b, type, &info) != 1)
+		;
+	stack_check(info.a,info.b,info.sorted_array,info.argc);
+	printf("here\n");
+	sorted_until = complete_move(&b, &info, 'b');
+	btoa(&a, &b, type, &info);
+	// while (btoa(&a, &b, type, &info) != 1)
+	// 	;
+	printf("sorted_until:%d\n",sorted_until);
+	stack_check(&a,&b,info.sorted_array,argc);
 
 	// make하고
 	// cc돌리고

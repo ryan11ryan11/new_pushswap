@@ -48,6 +48,7 @@ typedef struct	basic_info
 	Stack *b;
 	int	argc;
 	int pivot_index;
+	int	sorted_number;
 }Basic_info;
 
 
