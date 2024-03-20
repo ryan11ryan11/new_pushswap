@@ -110,21 +110,7 @@ void	stack_check(Stack *a, Stack *b, int *s, int argc)
 	}
 }
 
-int	ans_check(Stack *full, Stack *empty, int *s, int type)
-{
-	static int	i;
-
-	while (s[i] == full->data[full->top])
-	{
-		element_move(empty, full, type); // full 꼭대기 있는걸 empty에 박음
-		i ++ ;
-		printf("1a->data[a->top] :: %d		s[%d] :: %d\n", full->data[full->top],i, s[i]);
-	}
-	printf("2a->data[a->top] :: %d		s[%d] :: %d\n", full->data[full->top],i, s[i]);
-	return (i);
-}
-
-int	complete_move(Stack *full, Basic_info *info, int type)
+int	sorted_arr_scan(Stack *full, Basic_info *info, int type)
 {
 	int	i;
 	int	scan;
@@ -148,23 +134,29 @@ int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
 	int	pivot_value;
 	int	b_num;
 	int	half_pivot;
-	
+	int	i;
+
+	i = 0;	
 	half_pivot = (b->top - info->sorted_number)/2 + info->sorted_number;
 	pivot_value = info->sorted_array[half_pivot];
 	b_num = b->top; // 정렬해야 할 숫자의 갯수
 	printf("btoa started\n");
 	printf("sorted_number:%d",info->sorted_number);
 	printf("\n\n@@will be applied:pivot_value = %d half_pivot = %d b_num::%d\n\n",pivot_value, half_pivot, b_num);
+	sorted_arr_scan(b,info,type);
+	
+	if (b_num + 1 - info->sorted_number == 0)
+		return (1);
 	stack_check(a,b,info->sorted_array,info->argc);
+	while (b->data[b->top] == info->sorted_array[i])
+	{
+		printf("sorted number ++\n");
+		i ++ ;
+		stack_up(b, type);
+	}
 	while (b_num - info->sorted_number >= 0)
 	{
 		printf("top::%d sorted arr:%d\n",b->data[b->top],info->sorted_array[info->sorted_number]);
-		// if (b->data[b->top] == info->sorted_array[info->sorted_number])
-		// {
-		// 	printf("sorted number ++\n");
-		// 	info->sorted_number ++ ;
-		// 	stack_up(b, type);
-		// }
 		if (b->data[b->top] > pivot_value)
 			element_move(a, b, type);
 		else
@@ -172,6 +164,8 @@ int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
 		b_num -- ;
 	}
 	stack_check(a,b,info->sorted_array,info->argc);
+	sorted_arr_scan(b,info,type);
+	printf("#sorted_number:%d",info->sorted_number);
 	printf("ENDEND\n");
 	return (0);
 }
@@ -242,27 +236,7 @@ int	main(int argc, char *argv[])
 	type = 'a';
 	while (atob(&a, &b, type, &info) != 1)
 		;
-	stack_check(info.a,info.b,info.sorted_array,info.argc);
-	printf("here\n");
-	printf("SORTEDNUMBER::%d\n", info.sorted_number);
-	complete_move(&b, &info, 'b');
-	btoa(&a, &b, type, &info);
-	complete_move(&b, &info, 'b');
-	btoa(&a, &b, type, &info);
-	complete_move(&b, &info, 'b');
-	//sorted_until = complete_move(&b, &info, 'b');
-	btoa(&a, &b, type, &info);
-	complete_move(&b, &info, 'b');
-	//sorted_until = complete_move(&b, &info, 'b');
-	// btoa(&a, &b, type, &info);
-	// btoa(&a, &b, type, &info);
-
-	// while (btoa(&a, &b, type, &info) != 1)
-	// 	;
-	//printf("sorted_until:%d\n",sorted_until);
+	while (btoa(&a, &b, type, &info) != 1)
+		;
 	stack_check(&a,&b,info.sorted_array,argc);
-
-	// make하고
-	// cc돌리고
-	
 }
