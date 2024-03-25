@@ -120,108 +120,202 @@ int	sorted_arr_scan(Stack *full, Basic_info *info, int type)
 	printf("%d\n",type);
 	while (full->data[scan] == info->sorted_array[i])
 	{
-		//stack_up(full, type);
 		scan--;
 		i ++ ;
 	}
 	info->sorted_number = i;
+	info->head = info->sorted_array[0];
+	info->tail = info->sorted_array[i - 1];
 	return (i);
 }
 
 
-int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
+// int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
+// {
+// 	int	pivot_value;
+// 	int	b_num;
+// 	int	half_pivot;
+// 	int	i;
+
+// 	i = 0;	
+// 	half_pivot = (b->top - info->sorted_number)/2 + info->sorted_number;
+// 	pivot_value = info->sorted_array[half_pivot];
+// 	b_num = b->top; // 정렬해야 할 숫자의 갯수
+// 	printf("btoa started\n");
+// 	printf("sorted_number:%d",info->sorted_number);
+// 	printf("\n\n@@will be applied:pivot_value = %d half_pivot = %d b_num::%d\n\n",pivot_value, half_pivot, b_num);
+// 	sorted_arr_scan(b,info,type);
+	
+// 	if (b_num + 1 - info->sorted_number == 0)
+// 		return (1);
+// 	stack_check(a,b,info->sorted_array,info->argc);
+// 	while (b->data[b->top] == info->sorted_array[i])
+// 	{
+// 		printf("sorted number ++\n");
+// 		i ++ ;
+// 		stack_up(b, type);
+// 	}
+// 	while (b_num - info->sorted_number >= 0)
+// 	{
+// 		printf("top::%d sorted arr:%d\n",b->data[b->top],info->sorted_array[info->sorted_number]);
+// 		if (b->data[b->top] > pivot_value)
+// 			element_move(a, b, type);
+// 		else
+// 			stack_up(b, type);
+// 		b_num -- ;
+// 	}
+// 	stack_check(a,b,info->sorted_array,info->argc);
+// 	sorted_arr_scan(b,info,type);
+// 	printf("#sorted_number:%d",info->sorted_number);
+// 	printf("ENDEND\n");
+// 	return (0);
+// }
+
+
+// int	btoa(Stack *a, Stack *b, int type, Basic_info *info)
+// {
+// 	int	pivot_value;
+// 	int	b_num;
+// 	int	half_pivot;
+// 	int	i;
+
+// 	i = 0;
+// 	half_pivot = (b->top - info->sorted_number)/2 + info->sorted_number;
+// 	pivot_value = info->sorted_array[half_pivot];
+// 	b_num = b->top; // 정렬해야 할 숫자의 갯수
+// 	printf("btoa started\n");
+// 	printf("sorted_number:%d",info->sorted_number);
+// 	printf("\n\n@@will be applied:pivot_value = %d half_pivot = %d b_num::%d\n\n",pivot_value, half_pivot, b_num);
+// 	sorted_arr_scan(b,info,type);
+	
+// 	if (b_num + 1 - info->sorted_number == 0)
+// 		return (1);
+// 	stack_check(a,b,info->sorted_array,info->argc);
+// 	while (b->data[b->top] == info->sorted_array[i])
+// 	{
+// 		printf("sorted number ++\n");
+// 		i ++ ;
+// 		stack_up(b, type);
+// 	}
+// 	while (b_num - info->sorted_number >= 0)
+// 	{
+// 		printf("top::%d sorted arr:%d\n",b->data[b->top],info->sorted_array[info->sorted_number]);
+// 		if (b->data[b->top] > pivot_value)
+// 			element_move(a, b, type);
+// 		else
+// 			stack_up(b, type);
+// 		b_num -- ;
+// 	}
+// 	stack_check(a,b,info->sorted_array,info->argc);
+// 	sorted_arr_scan(b,info,type);
+// 	printf("#sorted_number:%d",info->sorted_number);
+// 	printf("ENDEND\n");
+// 	return (0);
+// }
+
+int	atob(Stack *a, Stack *b, int type, Basic_info *info, int pivot_index)
 {
 	int	pivot_value;
-	int	b_num;
-	int	half_pivot;
+	int	to_be_done;
 	int	i;
 
-	i = 0;	
-	half_pivot = (b->top - info->sorted_number)/2 + info->sorted_number;
-	pivot_value = info->sorted_array[half_pivot];
-	b_num = b->top; // 정렬해야 할 숫자의 갯수
-	printf("btoa started\n");
-	printf("sorted_number:%d",info->sorted_number);
-	printf("\n\n@@will be applied:pivot_value = %d half_pivot = %d b_num::%d\n\n",pivot_value, half_pivot, b_num);
-	sorted_arr_scan(b,info,type);
-	
-	if (b_num + 1 - info->sorted_number == 0)
-		return (1);
+	i = 0;
+	pivot_value = info->sorted_array[pivot_index];
+	to_be_done = a->top - info->sorted_number; // 정렬해야 할 숫자의 갯수
+	sorted_arr_scan(a,info,type);
+	printf("\n\nwill be applied:pivot_value = %d half_pivot = %d a_num::%d\n\n",pivot_value, a->top/2, to_be_done);
+	printf("\n");
 	stack_check(a,b,info->sorted_array,info->argc);
-	while (b->data[b->top] == info->sorted_array[i])
+	printf("\n");
+	printf("info->sorted_number::%d a->top::%d\n",info->sorted_number,a->top);
+	printf("top:%d sorted_number:%d\n",a->top,info->sorted_number);
+	if (a->top - info->sorted_number <= 1)
 	{
-		printf("sorted number ++\n");
+		if (a->data[a->top] > a->data[0])
+			swap(a,'a');
+		if (a->top + 1 != info->sorted_number)
+		{
+			while(a->data[0] != info->tail)
+				stack_down(a, type);
+			swap(a,'a');
+			while(a->data[a->top] != info->head)
+				stack_up(a, type);
+		}
+		info->first_half ++ ;
+		return (1);
+	}
+
+	while (a->data[a->top] == info->sorted_array[i])
+	{
+		stack_up(a, type);
 		i ++ ;
-		stack_up(b, type);
 	}
-	while (b_num - info->sorted_number >= 0)
-	{
-		printf("top::%d sorted arr:%d\n",b->data[b->top],info->sorted_array[info->sorted_number]);
-		if (b->data[b->top] > pivot_value)
-			element_move(a, b, type);
-		else
-			stack_up(b, type);
-		b_num -- ;
-	}
-	stack_check(a,b,info->sorted_array,info->argc);
-	sorted_arr_scan(b,info,type);
-	printf("#sorted_number:%d",info->sorted_number);
-	printf("ENDEND\n");
-	return (0);
-}
 
-
-int	atob(Stack *a, Stack *b, int type, Basic_info *info)
-{
-	int	pivot_value;
-	int	a_num;
-	int	half_pivot;
-	
-	half_pivot = a->top/2;
-	pivot_value = info->sorted_array[half_pivot];
-	a_num = a->top; // 정렬해야 할 숫자의 갯수
-	printf("\n\nwill be applied:pivot_value = %d half_pivot = %d a_num::%d\n\n",pivot_value, half_pivot, a_num);
-	stack_check(a,b,info->sorted_array,info->argc);
-	if (half_pivot == 0)
+	while (to_be_done >= 0)
 	{
-		element_move(b, a, type); // type = b 이면 pb, a면 pa
-		printf("##FINISHED##\n");
-		return (1);
-	}
-	while (a_num >= 0)
-	{
-		if (a->data[a->top] < pivot_value)
+		printf("3\n");
+		if (a->data[a->top] <= pivot_value)
 			stack_up(a, type);
 		else
 			element_move(b, a, type);
-		// if (b->data[b->top] > b->data[b->top - 1])
-		// 	swap(b, 'b');
-		a_num -- ;
+		to_be_done -- ;
 	}
+	
+	stack_check(a,b,info->sorted_array,info->argc);
+
+	while (a->data[0] != pivot_value) // 최적화필요, 위로보내아래로보내
+		stack_up(a, type);
+	if (a->data[0] == pivot_value)
+	{
+		stack_down(a, type);
+		element_move(b, a, type);
+	}
+	atob(a,b,type,info,pivot_index/2);
+	printf("\n#########################pivot_value::%d###########\n",pivot_value);
+	btoa(a,b,type,info,pivot_value); 
 	return (0);
 }
 
+int	btoa(Stack *a, Stack *b, int type, Basic_info *info, int pivot_value)
+{
+	int	pivot_index;
+	static int	sent;
 
-// typedef struct	basic_info
-// {
-// 	int	*sorted_array;
-// 	Stack *a;
-// 	Stack *b;
-// 	int	argc;
-// 	int pivot_index;
-// }Basic_info;
+	sorted_arr_scan(a,info,type);
+	//printf("a->top:%d sorted_number:%d!\n",a->top,info->sorted_number);
+	// if (a->top + 1 == info->sorted_number)
+	// 	return (0);
+	printf("btoa\n");
+	printf("pivot_value::%d btop::%d\n",pivot_value,b->top);
+	stack_check(a,b,info->sorted_array,info->argc);
+	if (b->data[b->top] > pivot_value)
+		return (0);
+	while (a->data[a->top] != pivot_value)
+	{
+		printf("ho\n");
+		element_move(a, b, 'b');
+		sent ++ ;
+	}
+	stack_check(a,b,info->sorted_array,info->argc);
+	pivot_index = info->sorted_number + sent - 1; //피봇에서 씨름중이었음 스태틱센트.. 
+	printf("pivot_index::%d\n",pivot_index);
+	printf("$pivotindex:%d sent:%d\n",pivot_index-sent/2, sent);
+	atob (a,b,type,info,pivot_index - sent/2);
+	return (0);
+}
 
 int	main(int argc, char *argv[])
 {
 	Basic_info	info;
-	Stack	a;
-	Stack	b;
-	int		type;
+	Stack		a;
+	Stack		b;
+	int			type;
 
 	if (argc <= 1) // 나중에 숫자 아닌 다른거 들어올 때 규칙 제정하기
 		return (0);
 	stack_init(&a);
 	stack_init(&b);
+	info.first_half = 0;
 	info.a = &a;
 	info.b = &b;
 	info.sorted_number = 0;
@@ -231,12 +325,15 @@ int	main(int argc, char *argv[])
 	printf("pivot_index = %d\n", info.pivot_index);
 	stack_maker(info.argc, info.a, info.sorted_array);
 	quicksort(info.sorted_array, 0, info.argc - 2); 
-	stack_check(info.a,info.b,info.sorted_array,info.argc);
 
 	type = 'a';
-	while (atob(&a, &b, type, &info) != 1)
-		;
-	while (btoa(&a, &b, type, &info) != 1)
-		;
+	atob(&a, &b, type, &info, a.top/2);
+	printf("final\n");
+	// atob(&a, &b, type, &info);
+	// atob(&a, &b, type, &info);
+	// while (atob(&a, &b, type, &info) != 1)
+	// 	;
+	// while (btoa(&a, &b, type, &info) != 1)
+	// 	;
 	stack_check(&a,&b,info.sorted_array,argc);
 }

@@ -27,7 +27,7 @@ void	test(t_list *a_order)
 		a_order = a_order->next;
 		i ++ ;
 	}
-	printf("order number :: %d\n", i);
+	//printf("order number :: %d\n", i);
 }
 
 void	center(char *order, int type) /// 나중에 메모리 누수 관리
@@ -37,13 +37,13 @@ void	center(char *order, int type) /// 나중에 메모리 누수 관리
 	
 	if (type == 'a')
 	{
-		printf("%s\n", order);
+		//printf("%s\n", order);
 		ft_lstadd_back(&a_order, ft_lstnew(order));
 		ft_lstadd_back(&b_order, ft_lstnew("skip"));
 	}
 	if (type == 'b')
 	{
-		printf("%s\n", order);
+		//printf("%s\n", order);
 		ft_lstadd_back(&a_order, ft_lstnew("skip"));
 		ft_lstadd_back(&b_order, ft_lstnew(order));
 	}
@@ -69,7 +69,7 @@ void	swap(Stack *s, int type)
 void	element_move(Stack *a, Stack *b, int type)
 {
 	push(a, b->data[b->top]); // 뒤에있는 b 를 빼서 a에 꼭대기에 넣음
-	printf("elementmove %d is moved\n", b->data[b->top]);
+	//printf("elementmove %d is moved\n", b->data[b->top]);
 	pop(b);
 	if (type == 'a')
 		center("pa",'a');

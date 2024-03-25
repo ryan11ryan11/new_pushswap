@@ -49,6 +49,9 @@ typedef struct	basic_info
 	int	argc;
 	int pivot_index;
 	int	sorted_number;
+	int	head;
+	int	tail;
+	int	first_half;
 }Basic_info;
 
 
@@ -71,6 +74,7 @@ void	swap(Stack *s, int type);
 void	element_move(Stack *a, Stack *b, int type);
 void	stack_up(Stack *s, int type);
 void	stack_down(Stack *s, int type);
+int	btoa(Stack *a, Stack *b, int type, Basic_info *info, int pivot_value);
 
 
 #endif
