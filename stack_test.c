@@ -54,7 +54,6 @@ void	swap(Stack *s, int type)
 {
 	int	temp;
 
-	printf("swap\n");
 	if (s->top < 1)
 		return ;
 	temp = s->data[s->top];
