@@ -135,10 +135,12 @@ int	sorted_arr_scan(Stack *full, Basic_info *info)
 	return (i);
 }
 
-int	organize(Stack *a, int how_many)
+int	organize(Stack *a, Stack *b, int how_many, Basic_info *info)
 {
-	if (how_many > 2)
-		return (0);
+	int	rewind;
+
+	printf("organize in \n");
+	rewind = 0;
 	if (how_many == 0)
 		return(2);
 	if (how_many == 1)
@@ -146,22 +148,29 @@ int	organize(Stack *a, int how_many)
 		stack_up(a, 'a');
 		return (2);
 	}
-	if (how_many == 2)
+	while (how_many >= 2)
 	{
-		if (a->data[a->top] < a->data[a->top - 1])
+		printf("atop : %d sortedarray : %d \n", a->top, info->sorted_array[info->sorted_number]);
+		while (a->data[a->top] != info->sorted_array[info->sorted_number])
 		{
-			stack_up(a, 'a');
-			stack_up(a, 'a');
-			return (2);
+			element_move (b, a, 'a');
+			rewind ++ ;
 		}
-		else
+		if (a->data[a->top] == info->sorted_array[info->sorted_number])
 		{
-			swap(a, 'a');
+			printf("gotcha atop : %d sortedarray : %d \n", a->top, info->sorted_array[info->sorted_number]);
 			stack_up(a, 'a');
-			stack_up(a, 'a');
-			return (2);
+			sorted_arr_scan(a, info);
 		}
+		while (rewind >= 0)
+		{
+			element_move (a, b, 'b');
+			rewind -- ;
+		}
+		sorted_arr_scan(a, info);
+		how_many = a->top + 1 - info->sorted_number;
 	}
+	sorted_arr_scan(a, info);
 	return(0);
 }
 
@@ -174,19 +183,17 @@ int	atob(Stack *a, Stack *b, Basic_info *info, int pivot_index, int start, int e
 	flag = 0;
 	pivot_value = info->sorted_array[pivot_index];
 	sorted_arr_scan(a,info);
-	printf("pivot_index:%d start:%d end:%d\n",pivot_index,start,end);
+	printf("\n\n1 sortednumber:%d pivot value:%d end:%d\n\n",info->sorted_number,pivot_value,end);	
 	stack_check(a,b,info->sorted_array,info->argc);
 
-	if (a->top + 1 - info->sorted_number <= 2) // btoa에서 당겨온 수가 2개 이하이면 organize하고 종결
+	if (a->top + 1 - info->sorted_number <= 3) // a스택에서 정렬되지 않은게 3개이하일 경우
 	{
-		printf("a->top:%d sortnum:%d\n",a->top, info->sorted_number);
+		printf("atob returned a->top:%d sortnum:%d\n",a->top, info->sorted_number);
 		sorted_arr_scan(a,info);
-		organize (a, a->top + 1 - info->sorted_number);
+		organize (a, b, a->top + 1 - info->sorted_number, info);
 		return (0);
 	}
-
-	printf("sortednumber::%d pivot value:%d end:%d \n",info->sorted_number,pivot_value,end);
-	while (flag == 0)
+	while (flag == 0) // 피봇밸류보다 작으면 밑으로 보내고 크면 스택b로 옮긴다
 	{
 		sorted_arr_scan(a,info);
 		if (a->data[a->top] == end)
@@ -194,23 +201,28 @@ int	atob(Stack *a, Stack *b, Basic_info *info, int pivot_index, int start, int e
 		if (a->data[a->top] <= pivot_value)
 			stack_up(a, 'a');
 		else
-			element_move(b, a, 'a');
+			element_move (b, a, 'a');
 	}
-	organize (a, a->top - info->sorted_number);
-	while (a->data[0] != pivot_value && a->top + 1 != info->sorted_number) // 최적화필요, 위로보내아래로보내
+	while (a->data[0] != pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 밑으로 보낸다, 최적화필요, 위로보내아래로보내
 	{
 		//printf("here\n");
 		stack_up(a, 'a');
 	}
-	if (a->data[0] == pivot_value && a->top + 1 != info->sorted_number)
+	if (a->data[0] == pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 위로 보낸 뒤 스택b로 이동시킨다
 	{
 		stack_down(a, 'a');
 		element_move(b, a, 'a');
 	}
+	while (info -> sorted_number > 1 && info -> tail != a->data[0]) // 리와인드
+		stack_down(a,'a');
+	printf("\n\n3 sortednumber:%d pivot value:%d end:%d\n\n",info->sorted_number,pivot_value,end);
+	stack_check(a,b,info->sorted_array,info->argc);
 	printf("atob end\n");
-	atob(a,b,info,pivot_index/2+info->sorted_number-1,a->data[a->top],a->data[0]);
+	atob(a,b,info,info->sorted_number - 1 + (a->top - info->sorted_number + 1)/2,a->data[a->top],a->data[0]);
+	//atob(a,b,info,pivot_index/2+info->sorted_number-1,a->data[a->top],a->data[0]);
 	printf("###pivot_value:%d###\n",pivot_value);
-	btoa(a,b,info,pivot_value); 
+	btoa(a,b,info,pivot_value);
+	printf("%d",start);
 	return (0);
 }
 
@@ -224,24 +236,36 @@ int	btoa(Stack *a, Stack *b, Basic_info *info, int pivot_value)
 	sent = 0;
 	prv_btop = b->data[b->top];
 	sorted_arr_scan(a,info);
-	if (b->data[b->top] > pivot_value)
+	if (b->data[b->top] > pivot_value) // btop의 밸류가 피봇밸류 이상일경우 종료
 		return (0);
-	while (a->data[a->top] != pivot_value)
+	while (a->data[a->top] != pivot_value) // 피봇밸류만큼 b에서 a로 끌어옴
 	{
 		printf("ho\n");
 		element_move(a, b, 'b');
 		sent ++ ;
 	}
-	// if (a->top + 1 - info->sorted_number == 0)
-	// 	return (0);
-	//stack_check(a,b,info->sorted_array,info->argc);
 	if (sent/2 == 0)
 		sent = 2;
-	pivot_index = info->sorted_array[info->sorted_number] + sent/2 - 1;
+	pivot_index = info->sorted_array[info->sorted_number] + sent/2 - 1; // 피봇 재설정
 	printf("btoa finished\n");
 	printf("sent to atob:pivot_index:%d a->data[a->top]:%d prv_btop:%d\n",pivot_index, a->data[a->top], prv_btop);
 	atob (a,b,info,pivot_index, a->data[a->top],prv_btop);
 	return (0);
+}
+
+void	simple_btoa(Stack *a, Stack *b, Basic_info *info)
+{
+	int	times;
+
+	times = b->top;
+	while (times >= 0)
+	{
+		if (b->data[b->top] < info->sorted_array[info->pivot_index])
+			element_move(a, b, 'b');
+		else
+			stack_up(b, 'b');
+		times -- ;
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -265,7 +289,20 @@ int	main(int argc, char *argv[])
 	stack_maker(info.argc, info.a, info.sorted_array);
 	quicksort(info.sorted_array, 0, info.argc - 2); 
 
-	atob(&a, &b, &info,info.pivot_index, a.data[a.top], a.data[0]);
+	atob(&a, &b, &info,info.pivot_index, a.data[a.top], a.data[0]); // 일단 b로 다 보낸다
+	sorted_arr_scan(&a,&info);
+	printf("					####onemore####\n");
+	while(b.top > 0)
+	{
+		info.pivot_index = (argc - info.sorted_number) / 2 + info.sorted_number - 1; // 
+		simple_btoa(&a,&b,&info);
+		printf("new_pivot:%d					####onemore####\n",info.pivot_index);
+		stack_check(&a,&b,info.sorted_array,argc);
+		info.pivot_index = info.sorted_array[info.sorted_number + (a.top - info.sorted_number) / 2];
+		atob(&a, &b, &info,info.pivot_index, a.data[a.top], a.data[0]);
+		sorted_arr_scan(&a,&info);
+	}
+	
 	printf("final\n");
 	// atob(&a, &b, type, &info);
 	// atob(&a, &b, type, &info);

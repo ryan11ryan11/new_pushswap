@@ -27,7 +27,7 @@ void	test(t_list *a_order)
 		a_order = a_order->next;
 		i ++ ;
 	}
-	//printf("order number :: %d\n", i);
+	printf("order number :: %d\n", i);
 }
 
 void	center(char *order, int type) /// 나중에 메모리 누수 관리
