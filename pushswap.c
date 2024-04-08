@@ -212,7 +212,7 @@ void	organize(Stack *a, Stack *b, int unorganized, Basic_info *info)
 	return ;
 }
 
-int		where_is(Stack *a, int target)
+int	where_is(Stack *a, int target)
 {
 	int	i;
 
@@ -251,7 +251,7 @@ int	atob(Stack *a, Stack *b, Basic_info *info, int pivot_index, int start, int e
 	printf("\n\n1 sortednumber:%d pivot value:%d end:%d\n\n",info->sorted_number,pivot_value,end);	
 	stack_check(a,b,info->sorted_array,info->argc);
 
-	if (a->top + 1 - info->sorted_number <= 5)
+	if (a->top + 1 - info->sorted_number <= 20)
 	{
 		printf("미정렬된 값이 %d 개 이하입니다. 정렬합니다\n", a->top + 1 - info->sorted_number);
 		printf("atob returned a->top:%d sortnum:%d\n",a->top, info->sorted_number);

@@ -37,13 +37,13 @@ void	center(char *order, int type) /// 나중에 메모리 누수 관리
 	
 	if (type == 'a')
 	{
-		printf("%s\n", order);
+		//printf("%s\n", order);
 		ft_lstadd_back(&a_order, ft_lstnew(order));
 		ft_lstadd_back(&b_order, ft_lstnew("skip"));
 	}
 	if (type == 'b')
 	{
-		printf("%s\n", order);
+		//printf("%s\n", order);
 		ft_lstadd_back(&a_order, ft_lstnew("skip"));
 		ft_lstadd_back(&b_order, ft_lstnew(order));
 	}
