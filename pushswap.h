@@ -75,6 +75,6 @@ void	element_move(Stack *a, Stack *b, int type);
 void	stack_up(Stack *s, int type);
 void	stack_down(Stack *s, int type);
 int		btoa(Stack *a, Stack *b, Basic_info *info, int pivot_value);
-int		organize(Stack *a, Stack *b, int how_many, Basic_info *info);
+void	organize(Stack *a, Stack *b, int unorganized, Basic_info *info);
 
 #endif
