@@ -12,44 +12,6 @@
 
 #include "pushswap.h"
 
-void	test(t_list *a_order)
-{
-	int	i;
-
-	i = 0;
-	// while(a_order != NULL)
-	// {
-	// 	printf("%s\n", a_order->content);
-	// 	a_order = a_order->next;
-	// }
-	while(a_order != NULL)
-	{
-		a_order = a_order->next;
-		i ++ ;
-	}
-	printf("order number :: %d\n", i);
-}
-
-void	center(char *order, int type) /// 나중에 메모리 누수 관리
-{
-	static t_list *a_order;
-	static t_list *b_order;
-	
-	if (type == 'a')
-	{
-		//printf("%s\n", order);
-		ft_lstadd_back(&a_order, ft_lstnew(order));
-		ft_lstadd_back(&b_order, ft_lstnew("skip"));
-	}
-	if (type == 'b')
-	{
-		//printf("%s\n", order);
-		ft_lstadd_back(&a_order, ft_lstnew("skip"));
-		ft_lstadd_back(&b_order, ft_lstnew(order));
-	}
-	test(a_order);
-}
-
 void	swap(Stack *s, int type)
 {
 	int	temp;
@@ -60,25 +22,24 @@ void	swap(Stack *s, int type)
 	s->data[s->top] = s->data[s->top - 1];
 	s->data[s->top - 1] = temp;
 	if (type == 'a')
-		center("sa",'a');
+		ft_putstr_fd("sa\n",1);
 	if (type == 'b')
-		center("sb",'b');
+		ft_putstr_fd("sb\n",1);
 }
 
 void	element_move(Stack *a, Stack *b, int type)
 {
-	push(a, b->data[b->top]); // 뒤에있는 b 를 빼서 a에 꼭대기에 넣음
-	//printf("elementmove %d is moved\n", b->data[b->top]);
+	push(a, b->data[b->top]);
 	pop(b);
 	if (type == 'a')
-		center("pa",'a');
+		ft_putstr_fd("pa\n",1);
 	if (type == 'b')
-		center("pb",'b');
+		ft_putstr_fd("pb\n",1);
 }
 
 void	stack_up(Stack *s, int type)
 {
-	int	i; // ra
+	int	i;
 	int	temp;
 
 	if (s->top < 1)
@@ -92,15 +53,14 @@ void	stack_up(Stack *s, int type)
 	}
 	s->data[0] = temp;
 	if (type == 'a')
-	    center("ra",'a');
-    if (type == 'b')
-        center("rb",'b');
+		ft_putstr_fd("ra\n",1);
+	if (type == 'b')
+		ft_putstr_fd("rb\n",1);
 }
-
 
 void	stack_down(Stack *s, int type)
 {
-	int	i; // rra
+	int	i;
 	int	temp;
 
 	if (s->top < 1)
@@ -114,7 +74,7 @@ void	stack_down(Stack *s, int type)
 	}
 	s->data[s->top] = temp;
 	if (type == 'a')
-	    center("rra",'a');
-    if (type == 'b')
-        center("rrb",'b');
+		ft_putstr_fd("rra\n",1);
+	if (type == 'b')
+		ft_putstr_fd("rrb\n",1);
 }
