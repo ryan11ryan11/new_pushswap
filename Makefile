@@ -21,7 +21,7 @@ SRC = pushswap stack_test stack_control
 
 SRCOBJ = $(addsuffix .o, $(SRC))
 
-%.o : %.c
+%.o : %.c pushswap.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME) : $(SRCOBJ)

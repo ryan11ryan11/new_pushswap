@@ -50,7 +50,7 @@ int	is_empty(Stack *a)
 
 int	is_full(Stack *a)
 {
-	if (a->top > MAX - 1)
+	if (a->top > 1000 - 1)
 		return (1);
 	else
 		return (0);

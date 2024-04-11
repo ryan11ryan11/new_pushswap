@@ -17,12 +17,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define MAX 100
-
+#define MAX 1000
 
 typedef struct stack
 {
-	int	data[100];
+	int	data[500];
 	int	top;
 }Stack;
 
