@@ -355,14 +355,86 @@ void	start(Basic_info *info, Stack *a, Stack *b,int argc,char *argv[])
 	quicksort(info->sorted_array, 0, info->argc - 2); 
 }
 
+int	is_non_digit(char *argv[])
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		while (argv[i][j] != '\0')
+		{
+			if (argv[i][j] == '+' || argv[i][j] == '-')
+				j ++ ;
+			if (argv[i][j] < '0' || argv[i][j] > '9')
+				return (0);
+			j ++ ;
+		}
+		j = 0;
+		i ++ ;
+	}
+	return (1);
+}
+
+int	dup_check(char *argv[])
+{
+	int	i;
+	int	j;
+	int	target;
+	int	match;
+
+	match = 0;
+	j = 1;
+	i = 1;
+	while (argv[j] != NULL)
+	{
+		target = ft_atoi(argv[j]);
+		while (argv[i] != NULL)
+		{
+			if (ft_atoi(argv[i]) == target)
+				match ++ ;
+			if (match > 1)
+				return (0);
+			i ++ ;
+		}
+		match = 0;
+		i = 1;
+		j ++ ;
+	}
+	return (1);
+}
+
+int	max_check(char *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (argv[i] != NULL)
+	{
+		if (ft_atoi(argv[i]) > 2147483647 || ft_atoi(argv[i]) < -2147483647)
+		{
+			return (0);
+		}
+		i ++ ;
+	}
+	return (1);
+}
+
 int	main(int argc, char *argv[])
 {
 	Basic_info	info;
 	Stack		a;
 	Stack		b;
 
-	if (argc <= 1)
+	if (argc < 2)
 		return (0);
+	if (is_non_digit(argv) == 0 || dup_check(argv) == 0)
+	{
+		ft_putstr_fd("ERROR\n",1);
+		return (0);
+	}
 	start(&info, &a, &b, argc, argv);
 	atob(&a, &b, &info,info.pivot_index,a.data[0]);
 	sorted_arr_scan(&a,&info);
