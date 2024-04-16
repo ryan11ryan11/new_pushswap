@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:59:30 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 15:35:53 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:31:09 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,21 @@ void	main_sort(t_Basic_info *info)
 	}
 }
 
+int	max_checker(char *argv[])
+{
+	int	i;
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		if (ft_new_atoi(argv[i]) > 2147483647 || \
+			ft_new_atoi(argv[i]) < -2147483647)
+			return (0);
+		i ++ ;
+	}
+	return (1);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_Basic_info	info;
@@ -110,7 +125,8 @@ int	main(int argc, char *argv[])
 	t_Stack			b;
 
 	info.argc = argc;
-	if (is_non_digit(argv) == 0 || dup_check(argv) == 0)
+	if (is_non_digit(argv) == 0 || dup_check(argv) == 0 || \
+		max_checker(argv) == 0)
 	{
 		ft_putstr_fd("ERROR\n", 1);
 		return (0);
@@ -122,4 +138,5 @@ int	main(int argc, char *argv[])
 		case_five(&a, &b, &info, argc);
 	main_sort(&info);
 	final(&a, &b);
+	free(info.sorted_array);
 }

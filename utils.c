@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:27:22 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 15:40:29 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:01:17 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	dup_check(char *argv[])
 	i = 1;
 	while (argv[j] != NULL)
 	{
-		target = ft_atoi(argv[j]);
+		target = ft_new_atoi(argv[j]);
 		while (argv[i] != NULL)
 		{
-			if (ft_atoi(argv[i]) == target)
+			if (ft_new_atoi(argv[i]) == target)
 				match ++ ;
 			if (match > 1)
 				return (0);

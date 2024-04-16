@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:36:12 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 15:35:38 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:00:47 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	*arr_maker(int argc, char *argv[])
 	arr = (int *)malloc(sizeof(int) * (argc - 1));
 	while (j <= argc - 2)
 	{
-		arr[j] = ft_atoi(argv[j + 1]);
+		arr[j] = ft_new_atoi(argv[j + 1]);
 		j ++ ;
 	}
 	return (arr);
