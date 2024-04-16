@@ -119,7 +119,7 @@ int	sorted_arr_scan(Stack *full, Basic_info *info)
 	i = 0;
 	while (full->data[scan] != info->sorted_array[i] && scan >= 0)
 		scan -- ;
-	while (full->data[scan] == info->sorted_array[i])
+	while (full->data[scan] == info->sorted_array[i] && scan >= 0)
 	{
 		scan -- ;
 		i ++ ;
@@ -148,14 +148,14 @@ void	init_organize(Stack *a, Stack *b, Basic_info *info)
 			stack_up(a,'a');
 		else
 		{
-			element_move(b,a,'a');
+			element_move(b,a,'b');
 			rewind ++ ;
 		}
 		set -- ;
 	}
 	while (rewind > 0)
 	{
-		element_move(a,b,'b');
+		element_move(a,b,'a');
 		rewind -- ;
 	}
 	if (a->data[a->top] > a->data[a->top - 1])
@@ -193,12 +193,12 @@ void	organize(Stack *a, Stack *b, int unorganized, Basic_info *info)
 		if (is_at_a(a,info->sorted_array[info->sorted_number]) == 1)
 		{
 			while (a->data[a->top] != info->sorted_array[info->sorted_number])
-				element_move(b,a,'a');
+				element_move(b,a,'b');
 		}
 		if (is_at_a(a,info->sorted_array[info->sorted_number]) == 0)
 		{
 			while (a->data[a->top] != info->sorted_array[info->sorted_number])
-				element_move(a,b,'b');
+				element_move(a,b,'a');
 		}
 		if (a->data[a->top] == info->sorted_array[info->sorted_number])
 			stack_up(a,'a');
@@ -249,24 +249,47 @@ void first_three(int argc, Stack *a, Stack *b)
 		if (a->data[a->top] < piv1)
 			stack_up(a,'a');
 		if (a->data[a->top] >= piv1 && a->data[a->top] <= piv2)
-			element_move(b,a,'a');
+			element_move(b,a,'b');
 		if (a->data[a->top] > piv2)
 		{
-			element_move(b,a,'a');
+			element_move(b,a,'b');
 			stack_up(b,'b');
 		}
 		set -- ;
 	}
 }
 
+void	down_or_b(Stack *a, Stack *b, Basic_info *info, int end, int pivot_value)
+{
+	int flag;
+
+	flag = 0;
+	while (flag == 0) // 피봇밸류보다 작으면 밑으로 보내고 크면 스택b로 옮긴다
+	{
+		sorted_arr_scan(a,info);
+		if (a->data[a->top] == end)
+			flag = 1;
+		if (a->data[a->top] <= pivot_value)
+			stack_up(a, 'a');
+		else
+			element_move (b, a, 'b');
+	}
+	if (a->data[0] != pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 밑으로 보낸다, 최적화필요, 위로보내아래로보내
+		pivot_buttom(a,pivot_value);
+	if (a->data[0] == pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 위로 보낸 뒤 스택b로 이동시킨다
+	{
+		stack_down(a, 'a');
+		element_move(b, a, 'b');
+	}
+}
+
 int	atob(Stack *a, Stack *b, Basic_info *info, int pivot_index, int end)
 {
 	int	pivot_value;
-	int	flag;
 
-	flag = 0;
 	pivot_value = info->sorted_array[pivot_index];
-	sorted_arr_scan(a,info);
+	if(sorted_arr_scan(a,info) == a->top + 1)
+		return (0);
 	if (a->top + 1 - info->sorted_number <= 30)
 	{
 		sorted_arr_scan(a,info);
@@ -277,23 +300,7 @@ int	atob(Stack *a, Stack *b, Basic_info *info, int pivot_index, int end)
 		end = a->data[0];
 	else
 		end = a->data[where_is(a,info->sorted_array[0]) + 1];
-	while (flag == 0) // 피봇밸류보다 작으면 밑으로 보내고 크면 스택b로 옮긴다
-	{
-		sorted_arr_scan(a,info);
-		if (a->data[a->top] == end)
-			flag = 1;
-		if (a->data[a->top] <= pivot_value)
-			stack_up(a, 'a');
-		else
-			element_move (b, a, 'a');
-	}
-	if (a->data[0] != pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 밑으로 보낸다, 최적화필요, 위로보내아래로보내
-		pivot_buttom(a,pivot_value);
-	if (a->data[0] == pivot_value && a->top + 1 != info->sorted_number) // 피봇값을 맨 위로 보낸 뒤 스택b로 이동시킨다
-	{
-		stack_down(a, 'a');
-		element_move(b, a, 'a');
-	}
+	down_or_b(a,b,info,end,pivot_value);
 	sorted_arr_scan(a,info);
 	while (info -> sorted_number > 1 && info -> tail != a->data[0]) // 리와인드
 		stack_down(a,'a');
@@ -315,7 +322,7 @@ int	btoa(Stack *a, Stack *b, Basic_info *info, int pivot_value)
 		return (0);
 	while (a->data[a->top] != pivot_value) // 피봇밸류만큼 b에서 a로 끌어옴
 	{
-		element_move(a, b, 'b');
+		element_move(a, b, 'a');
 		sent ++ ;
 	}
 	if (sent/2 == 0)
@@ -333,7 +340,7 @@ void	simple_btoa(Stack *a, Stack *b, Basic_info *info)
 	while (times >= 0)
 	{
 		if (b->data[b->top] < info->sorted_array[info->pivot_index])
-			element_move(a, b, 'b');
+			element_move(a, b, 'a');
 		else
 			stack_up(b, 'b');
 		times -- ;
@@ -422,20 +429,86 @@ int	max_check(char *argv[])
 	return (1);
 }
 
+void	case_three(Stack *a)
+{
+	if (a->data[2] < a->data[1] && a->data[1] > a->data[0] && a->data[2] < a->data[0])
+	{
+		stack_down(a,'a');
+		swap(a,'a');
+	}
+	else if (a->data[2] < a->data[1] && a->data[1] > a->data[0] && a->data[2] > a->data[0])
+		stack_up(a,'a');
+	else if (a->data[2] > a->data[1] && a->data[1] < a->data[0] && a->data[2] < a->data[0])
+		swap(a,'a');
+	else if (a->data[2] > a->data[1] && a->data[1] > a->data[0] && a->data[2] > a->data[0])
+	{
+		swap(a,'a');
+		stack_down(a,'a');
+	}
+	else if (a->data[2] > a->data[1] && a->data[1] < a->data[0] && a->data[2] > a->data[0])
+		stack_up(a,'a');
+}
+
+void	case_five(Stack *a, Stack *b, Basic_info *info, int argc)
+{
+	int	i;
+
+	i = 5;
+	if (argc == 4)
+	{
+		case_three(a);
+		return ;
+	}
+	while (i > 0)
+	{
+		if (a->data[a->top] == info->sorted_array[0] || a->data[a->top] == info->sorted_array[1])
+			element_move (b,a,'b');
+		else
+			stack_up(a,'a');
+		i -- ;
+	}
+	if (b->data[b->top] < b->data[b->top - 1])
+		swap(b,'b');
+	case_three(a);
+	element_move (a,b,'a');
+	element_move (a,b,'a');
+}
+
+void	final(Stack *a, Stack *b)
+{
+	int	i;
+
+	i = 0;
+	if (b->top >= 1 && b->data[b->top] < b->data[b->top - 1])
+		swap(b,'b');
+	while(b->top != -1)
+	{
+		element_move (a,b,'a');
+		i ++ ;
+	}
+	while (i > 0)
+	{
+		stack_up(a,'a');
+		i -- ;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	Basic_info	info;
 	Stack		a;
 	Stack		b;
 
-	if (argc < 2)
-		return (0);
 	if (is_non_digit(argv) == 0 || dup_check(argv) == 0)
 	{
 		ft_putstr_fd("ERROR\n",1);
 		return (0);
 	}
+	if (argc <= 2)
+		return (0);
 	start(&info, &a, &b, argc, argv);
+	if (argc == 4 || argc == 6)
+		case_five(&a,&b,&info,argc);
 	atob(&a, &b, &info,info.pivot_index,a.data[0]);
 	sorted_arr_scan(&a,&info);
 	while(b.top > 1)
@@ -446,4 +519,5 @@ int	main(int argc, char *argv[])
 		atob(&a, &b, &info,info.pivot_index,a.data[0]);
 		sorted_arr_scan(&a,&info);
 	}
+	final(&a,&b);
 }
