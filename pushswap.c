@@ -6,11 +6,12 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:59:30 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 16:31:09 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:14:49 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
+
 
 // void	stack_check(Stack *a, Stack *b, int *s, int argc)
 // {
@@ -74,7 +75,7 @@
 // }
 
 void	start(t_Basic_info *info, t_Stack *a, t_Stack *b, char *argv[])
-{
+{	
 	stack_init(a);
 	stack_init(b);
 	info->first_half = 0;
@@ -118,25 +119,64 @@ int	max_checker(char *argv[])
 	return (1);
 }
 
+char**	argc_2(t_Basic_info *info, char *argv[])
+{
+	char	**arr;
+	int	i;
+
+	i = 0;
+	arr = ft_split(ft_strjoin("junhhong ",argv[1]),' ');
+	while (arr[i] != NULL)
+		i ++ ;
+	info->argc = i;
+	return (arr);
+}
+
+void	freedom(char *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (argv[i] != NULL)
+		i ++ ;
+	while (i >= 0)
+	{
+		free(argv[i]);
+		i -- ;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	t_Basic_info	info;
 	t_Stack			a;
 	t_Stack			b;
+	int				flag;
 
+	flag = 0;
 	info.argc = argc;
+	if (argc == 2)
+	{
+		argv = argc_2(&info,argv);
+		flag ++ ;
+	}
 	if (is_non_digit(argv) == 0 || dup_check(argv) == 0 || \
 		max_checker(argv) == 0)
 	{
-		ft_putstr_fd("ERROR\n", 1);
+		ft_putstr_fd("Error\n", 1);
 		return (0);
 	}
-	if (argc <= 2)
+	if (argc < 2)
 		return (0);
 	start(&info, &a, &b, argv);
 	if (argc == 4 || argc == 6)
 		case_five(&a, &b, &info, argc);
 	main_sort(&info);
 	final(&a, &b);
+	if (flag != 0)
+	{
+		freedom(argv);
+		free(argv);
+	}
 	free(info.sorted_array);
 }

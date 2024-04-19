@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:39:28 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 15:39:20 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:47:07 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	case_three(t_Stack *a)
 	}
 	else if (a->data[2] < a->data[1] && a->data[1] > a->data[0] \
 		&& a->data[2] > a->data[0])
-		stack_up(a, 'a');
+		stack_down(a, 'a');
 	else if (a->data[2] > a->data[1] && a->data[1] < a->data[0] \
 		&& a->data[2] < a->data[0])
 		swap(a, 'a');

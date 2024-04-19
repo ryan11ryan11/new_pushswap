@@ -6,7 +6,7 @@
 #    By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 17:03:39 by junhhong          #+#    #+#              #
-#    Updated: 2024/04/16 17:04:16 by junhhong         ###   ########.fr        #
+#    Updated: 2024/04/16 15:50:26 by junhhong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,22 +14,18 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBDIR = libft
 LIBFT = libft/libft.a
-NAME = push_swap
+NAME = pushswap.a
 AR = ar -rcs
 
 SRC = pushswap stack_test stack_control organizer presort small_argc stack_movement utils ft_new_atoi
-
-all : $(NAME)
 
 SRCOBJ = $(addsuffix .o, $(SRC))
 
 %.o : %.c pushswap.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# -C는 make를 어디서 실행할 지 알려주는 역할
 $(NAME) : $(SRCOBJ)
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(SRCOBJ) ./libft/libft.a -o $(NAME)
+	$(AR) $(NAME) $(SRCOBJ) 
 
 clean:
 	rm -f $(SRCOBJ)

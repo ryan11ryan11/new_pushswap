@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:39:45 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 16:07:42 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:09:34 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,8 @@ void		swap(t_Stack *s, int type);
 void		element_move(t_Stack *a, t_Stack *b, int type);
 void		stack_up(t_Stack *s, int type);
 void		stack_down(t_Stack *s, int type);
+char		**ft_split(char const *s, char c);
+char**		argc_2(t_Basic_info *info, char *argv[]);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
