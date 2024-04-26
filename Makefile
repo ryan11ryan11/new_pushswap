@@ -6,7 +6,7 @@
 #    By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 17:03:39 by junhhong          #+#    #+#              #
-#    Updated: 2024/04/26 18:32:49 by junhhong         ###   ########.fr        #
+#    Updated: 2024/04/26 18:43:37 by junhhong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,10 @@ $(NAME) : $(SRCOBJ)
 
 clean:
 	rm -rf $(SRCOBJ)
+	$(MAKE) -C ./libft fclean
 
 fclean: clean
 	rm -rf ${NAME}
-	rm -rf ${CHECK}
 
 lib :
 	$(MAKE) -C $(LIBDIR)/
