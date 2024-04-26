@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:27:22 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/26 17:36:29 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:28:55 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	pivot_buttom(t_Stack *a, int pivot_value)
 	loc_pivot_value = where_is(a, pivot_value);
 	if (loc_pivot_value > a->top / 2)
 	{
-		while (a->data[0] != pivot_value) // 문제상황
+		while (a->data[0] != pivot_value)
 			stack_up(a, 'a');
 	}
 	if (loc_pivot_value <= a->top / 2 && a->data[0] != pivot_value)

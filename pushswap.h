@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:39:45 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/26 18:16:20 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:24:37 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		freedom(char *argv[]);
 int			max_checker(char *argv[]);
 
 //utils2
-void 		free_tmp_argv(char *argv[], t_Basic_info *info);
+void		free_tmp_argv(char *argv[], t_Basic_info *info);
 int			error_case(char *argv[], int flag, t_Basic_info *info);
 int			small_case(t_Basic_info *info, int flag, char *argv[]);
 
@@ -112,7 +112,7 @@ void		element_move(t_Stack *a, t_Stack *b, int type);
 void		stack_up(t_Stack *s, int type);
 void		stack_down(t_Stack *s, int type);
 char		**ft_split(char const *s, char c);
-char**		argc_2(t_Basic_info *info, char *argv[]);
+char		**argc_2(t_Basic_info *info, char *argv[]);
 char		*ft_strjoin(char const *s1, char const *s2);
 
 #endif

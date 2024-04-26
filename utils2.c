@@ -6,13 +6,13 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 18:14:18 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/26 18:16:04 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:29:18 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void free_tmp_argv(char *argv[], t_Basic_info *info)
+void	free_tmp_argv(char *argv[], t_Basic_info *info)
 {
 	free(info->tmp_arr);
 	freedom(argv);

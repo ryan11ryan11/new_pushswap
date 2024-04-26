@@ -6,7 +6,7 @@
 #    By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 17:03:39 by junhhong          #+#    #+#              #
-#    Updated: 2024/04/26 18:15:38 by junhhong         ###   ########.fr        #
+#    Updated: 2024/04/26 18:32:49 by junhhong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,16 @@ SRCOBJ = $(addsuffix .o, $(SRC))
 %.o : %.c pushswap.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# -C는 make를 어디서 실행할 지 알려주는 역할
 $(NAME) : $(SRCOBJ)
 	$(MAKE) -C ./libft
 	$(CC) $(CFLAGS) $(SRCOBJ) ./libft/libft.a -o $(NAME)
 
 clean:
-	rm -f $(SRCOBJ)
+	rm -rf $(SRCOBJ)
+
+fclean: clean
+	rm -rf ${NAME}
+	rm -rf ${CHECK}
 
 lib :
 	$(MAKE) -C $(LIBDIR)/

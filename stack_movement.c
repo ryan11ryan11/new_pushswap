@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:32:08 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/26 17:30:01 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:26:36 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	atob(t_Basic_info *info, int pivot_index, int end)
 		end = info->a->data[where_is(info->a, info->sorted_array[0]) + 1];
 	down_or_b(info, end, pivot_value);
 	sorted_arr_scan(info->a, info);
-	while (info -> sorted_number > 1 && info -> tail != info->a->data[0]) 
+	while (info -> sorted_number > 1 && info -> tail != info->a->data[0])
 		stack_down(info->a, 'a');
 	sorted_arr_scan(info->a, info);
 	atob(info, info->sorted_number + (info->a->top + 1 - info->sorted_number) \
-		 / 2 - 1, info->a->data[0]);
+		/ 2 - 1, info->a->data[0]);
 	btoa(info->a, info->b, info, pivot_index);
 	return (0);
 }
@@ -80,8 +80,8 @@ void	simple_btoa(t_Stack *a, t_Stack *b, t_Basic_info *info)
 		times -- ;
 		rewind ++ ;
 	}
-	info->pivot_index = info->sorted_number + (a->top + 1 - info->sorted_number) / 2;
-	//info->pivot_index = info->pivot_index - rewind / 2;
+	info->pivot_index = info->sorted_number + \
+	(a->top + 1 - info->sorted_number) / 2;
 }
 
 void	final(t_Stack *a, t_Stack *b)
