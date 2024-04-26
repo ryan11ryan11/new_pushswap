@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:50:56 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/16 15:40:13 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:51:10 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	swap(t_Stack *s, int type)
 	s->data[s->top] = s->data[s->top - 1];
 	s->data[s->top - 1] = temp;
 	if (type == 'a')
-		ft_putstr_fd("sa\n", 1);
+	 	write(1, "sa\n", 3);
 	if (type == 'b')
-		ft_putstr_fd("sb\n", 1);
+	 	write(1, "sb\n", 3);
 }
 
 void	element_move(t_Stack *a, t_Stack *b, int type)
@@ -32,9 +32,9 @@ void	element_move(t_Stack *a, t_Stack *b, int type)
 	push(a, b->data[b->top]);
 	pop(b);
 	if (type == 'a')
-		ft_putstr_fd("pa\n", 1);
+	 	write(1, "pa\n", 3);
 	if (type == 'b')
-		ft_putstr_fd("pb\n", 1);
+	 	write(1, "pb\n", 3);
 }
 
 void	stack_up(t_Stack *s, int type)
@@ -53,9 +53,9 @@ void	stack_up(t_Stack *s, int type)
 	}
 	s->data[0] = temp;
 	if (type == 'a')
-		ft_putstr_fd("ra\n", 1);
+	 	write(1, "ra\n", 3);
 	if (type == 'b')
-		ft_putstr_fd("rb\n", 1);
+	 	write(1,"rb\n", 3);
 }
 
 void	stack_down(t_Stack *s, int type)
@@ -74,7 +74,7 @@ void	stack_down(t_Stack *s, int type)
 	}
 	s->data[s->top] = temp;
 	if (type == 'a')
-		ft_putstr_fd("rra\n", 1);
+		write(1, "rra\n", 4);
 	if (type == 'b')
-		ft_putstr_fd("rrb\n", 1);
+		write(1, "rrb\n", 4);
 }

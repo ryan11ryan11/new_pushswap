@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:27:22 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/18 16:34:36 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:36:29 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	pivot_buttom(t_Stack *a, int pivot_value)
 	loc_pivot_value = where_is(a, pivot_value);
 	if (loc_pivot_value > a->top / 2)
 	{
-		while (a->data[0] != pivot_value)
+		while (a->data[0] != pivot_value) // 문제상황
 			stack_up(a, 'a');
 	}
 	if (loc_pivot_value <= a->top / 2 && a->data[0] != pivot_value)
@@ -104,4 +104,19 @@ void	down_or_b(t_Basic_info *info, int end, int pivot_value)
 		stack_down(info->a, 'a');
 		element_move(info->b, info->a, 'b');
 	}
+}
+
+int	max_checker(char *argv[])
+{
+	int	i;
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		if (ft_new_atoi(argv[i]) > 2147483647 || \
+			ft_new_atoi(argv[i]) < -2147483648)
+			return (0);
+		i ++ ;
+	}
+	return (1);
 }

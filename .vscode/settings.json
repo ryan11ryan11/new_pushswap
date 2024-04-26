@@ -5,6 +5,18 @@
         "string": "c",
         "string_view": "c",
         "algorithm": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "__bit_reference": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "__tree": "c",
+        "deque": "c",
+        "initializer_list": "c",
+        "ios": "c",
+        "iterator": "c",
+        "set": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c"
     }
 }

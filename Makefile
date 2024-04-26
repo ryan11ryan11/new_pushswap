@@ -6,7 +6,7 @@
 #    By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 17:03:39 by junhhong          #+#    #+#              #
-#    Updated: 2024/04/16 17:04:16 by junhhong         ###   ########.fr        #
+#    Updated: 2024/04/26 18:15:38 by junhhong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ LIBFT = libft/libft.a
 NAME = push_swap
 AR = ar -rcs
 
-SRC = pushswap stack_test stack_control organizer presort small_argc stack_movement utils ft_new_atoi
+SRC = pushswap stack_test stack_control organizer presort small_argc stack_movement \
+		utils utils2 ft_new_atoi
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: junhhong <junhhong@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:39:45 by junhhong          #+#    #+#             */
-/*   Updated: 2024/04/18 17:09:34 by junhhong         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:16:20 by junhhong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 typedef struct stack
 {
-	int	data[500];
+	int	data[1000];
 	int	top;
 }	t_Stack;
 
@@ -41,6 +42,7 @@ typedef struct s_list
 typedef struct basic_info
 {
 	int		*sorted_array;
+	char	*tmp_arr;
 	t_Stack	*a;
 	t_Stack	*b;
 	int		argc;
@@ -76,10 +78,18 @@ void		pivot_buttom(t_Stack *a, int pivot_value);
 void		down_or_b(t_Basic_info *info, int end, int pivot_value);
 int			dup_check(char *argv[]);
 int			is_non_digit(char *argv[]);
+void		freedom(char *argv[]);
+int			max_checker(char *argv[]);
+
+//utils2
+void 		free_tmp_argv(char *argv[], t_Basic_info *info);
+int			error_case(char *argv[], int flag, t_Basic_info *info);
+int			small_case(t_Basic_info *info, int flag, char *argv[]);
 
 //small_argc
 void		case_three(t_Stack *a);
-void		case_five(t_Stack *a, t_Stack *b, t_Basic_info *info, int argc);
+void		case_five(t_Stack *a, t_Stack *b, t_Basic_info *info);
+void		small_center(t_Stack *a, t_Stack *b, t_Basic_info *info);
 
 //new_atoi
 long long	ft_new_atoi(const char *nptr);
@@ -103,6 +113,6 @@ void		stack_up(t_Stack *s, int type);
 void		stack_down(t_Stack *s, int type);
 char		**ft_split(char const *s, char c);
 char**		argc_2(t_Basic_info *info, char *argv[]);
-char	*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin(char const *s1, char const *s2);
 
 #endif
